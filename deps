@@ -1,0 +1,4 @@
+#! /bin/sh
+
+npm install tweetstream
+npm install express
