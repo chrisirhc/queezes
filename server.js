@@ -37,5 +37,4 @@ app.configure(function() {
   });
   app.use(express.router(datastore.route));
 });
-app.listen(3000);
-console.log('Connect server listening on port 3000');
+app.listen(80);
