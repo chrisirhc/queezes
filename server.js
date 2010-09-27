@@ -8,6 +8,9 @@ var persistenceStore = datastore.persistenceStore;
 
 var app = express.createServer();
 
+/** debugging **/
+app.set('env', 'development');
+
 /** API **/
 app.configure(function() {
   /** if it's a file, serve it **/
@@ -37,4 +40,12 @@ app.configure(function() {
   });
   app.use(express.router(datastore.route));
 });
-app.listen(80);
+// local testing
+app.configure('production', function() {
+  app.listen(80);
+  console.log("Listening to 80");
+});
+app.configure('development', function() {
+  app.listen(3000);
+  console.log("Listening to 3000");
+});
