@@ -33,9 +33,11 @@ app.configure(function() {
     });
   });
   app.get('/init', function(req, res, next) {
-    req.conn.schemaSync(req.tx, function() {
-      res.send("Database setup");
-      res.end();
+    req.conn.reset(req.tx, function() {
+      req.conn.schemaSync(req.tx, function() {
+        res.send("Database setup");
+        res.end();
+      });
     });
   });
   app.use(express.router(datastore.route));
