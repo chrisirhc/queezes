@@ -11,9 +11,11 @@ var app = express.createServer();
 /** debugging **/
 app.set('env', 'development');
 
+app.set('view engine', 'jade');
 /** API **/
 app.configure(function() {
   /** if it's a file, serve it **/
+  app.use(express.compiler({__dirname + '/public', enable: ['less']});
   app.use(express.staticProvider(__dirname + '/public'));
   app.use(express.logger());
   app.use(express.bodyDecoder());
