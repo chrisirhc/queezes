@@ -1,0 +1,5 @@
+h1 Quiz #{quizzes.name}
+#quiz
+  - each quiz in quizzes
+    li
+      a(href='/' + quiz.shortname)= quiz.name
