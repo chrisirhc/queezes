@@ -1,0 +1,3 @@
+[submodule "lib/persistencejs"]
+	path = lib/persistencejs
+	url = git://github.com/zefhemel/persistencejs.git
