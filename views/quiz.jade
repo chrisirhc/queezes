@@ -1,5 +1,9 @@
-h1 Quiz #{quizzes.name}
-#quiz
-  - each quiz in quizzes
-    li
-      a(href='/' + quiz.shortname)= quiz.name
+h1 #{quiz.name} (#{quiz.short_name}) Quiz
+form#quiz
+  ul
+    - each questionorder in questionorders
+      li
+        .head= questionorder.question.content
+          ul
+            li
+              input(type="text")
