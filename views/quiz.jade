@@ -1,9 +1,19 @@
 h1 #{quiz.name} (#{quiz.short_name}) Quiz
 form#quiz
   ul
-    - each questionorder in questionorders
+    - each questionOrder, key in questionOrders
       li
-        .head= questionorder.question.content
+        .head= questionOrder.question.content
           ul
-            li
-              input(type="text")
+            //- List out all the answers
+            - each answerOrder in answerOrders[key]
+              li= answerOrder.answer.content
+            //- Show the open-ended input box if it's open-ended
+            - if(questionOrder.question.open_ended)
+              li
+                //- Show the open-ended text for input box
+                - if(questionOrder.question.open_ended_text)
+                  label= questionOrder.question.open_ended_text
+                    input(type="text")
+                - else
+                  input(type="text")

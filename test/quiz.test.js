@@ -15,7 +15,7 @@ module.exports = {
       short_name: "p",
       privacy: 0,
       creation_time: new Date("October 4, 2010 21:21:00"),
-      questionorders: [
+      questionOrders: [
         {
           question: {
             content: "What is your full name?",
@@ -28,13 +28,19 @@ module.exports = {
           question: {
             content: "What is your gender?",
             short_name: 'gender',
-            open_ended: false
-            answers: [
+            open_ended: false,
+            answerOrders: [
               {
-                content: "Female"
+                answer: {
+                  content: "Female"
+                },
+                weight: 0
               },
               {
-                content: "Male"
+                answer: {
+                  content: "Male"
+                },
+                weight: 0
               }
             ]
           },
@@ -59,7 +65,12 @@ module.exports = {
       ]
     };
     shallowQuizObj = _.clone(quizObj);
-    delete shallowQuizObj.questionorders;
+    delete shallowQuizObj.questionOrders;
+    /** Typical quiz generation. Seems rather complex **/
+    /**
+     * It's only complex for generation of a quiz out of nothing
+     * in a normal process it'll be built from scratch
+     **/
     request({
       uri: 'http://' + hostname + ':' + portno + "/quiz",
       method: 'POST',
@@ -70,32 +81,71 @@ module.exports = {
       /** Set the ID returned **/
       quizObj.id = JSON.parse(body).id;
       console.log(quizObj.id);
-      for (var a in quizObj.questionorders) {
+      for (var a in quizObj.questionOrders) {
         /** Setup the questions **/
         request({
           uri: 'http://' + hostname + ':' + portno + "/question",
           method: 'POST',
           client: httpclient,
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(quizObj.questionorders[a].question)
+          body: JSON.stringify(quizObj.questionOrders[a].question)
         }, (function(a) {
           return function(error, response, body) {
-            quizObj.questionorders[a].question.id = JSON.parse(body).id;
+            assert.equal(201, response.statusCode, 'Test created Question');
+            quizObj.questionOrders[a].question.id = JSON.parse(body).id;
+            /** Setup the Answer Orders **/
+            if(quizObj.questionOrders[a].question.answerOrders) {
+              quizObj.questionOrders[a].question.answerOrders.forEach(function (aorderObj) {
+                request({
+                  uri: 'http://' + hostname + ':' + portno + "/answer",
+                  method: 'POST',
+                  client: httpclient,
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify(aorderObj.answer)
+                }, function (err, response, body) {
+                  assert.equal(201, response.statusCode, 'Test created Answer');
+                  aorderObj.answer.id = JSON.parse(body).id;
+                  request({
+                    uri: 'http://' + hostname + ':' + portno + "/answerOrder",
+                    method: 'POST',
+                    client: httpclient,
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                      answer: aorderObj.answer.id,
+                      weight: aorderObj.weight
+                    })
+                  }, function (err, response, body) {
+                    assert.equal(201, response.statusCode, 'Created created AnswerOrder');
+                    aorderObj.id = JSON.parse(body).id;
+                    request({
+                      uri: 'http://' + hostname + ':' + portno + "/linkquestionaorder/" +
+                      quizObj.questionOrders[a].question.id + "/" + aorderObj.id,
+                      method: 'PUT',
+                      client: httpclient
+                    }, function (err, response, body) {
+                      console.log("here");
+                      assert.equal(200, response.statusCode, 'Test linked AnswerOrder to QuestionOrder');
+                      console.log("Answers setup for question " + a);
+                    });
+                  });
+                });
+              });
+            };
             /** Setup the Question Orders **/
             request({
-              uri: 'http://' + hostname + ':' + portno + "/questionorder",
+              uri: 'http://' + hostname + ':' + portno + "/questionOrder",
               method: 'POST',
               client: httpclient,
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
-                question: quizObj.questionorders[a].question.id,
-                weight: quizObj.questionorders[a].weight
+                question: quizObj.questionOrders[a].question.id,
+                weight: quizObj.questionOrders[a].weight
               })
             }, function(error, response, body) {
-              quizObj.questionorders[a].id = JSON.parse(body).id;
+              quizObj.questionOrders[a].id = JSON.parse(body).id;
               request({
-                uri: 'http://' + hostname + ':' + portno + "/quizqorder/" + 
-                quizObj.id + "/" + quizObj.questionorders[a].id,
+                uri: 'http://' + hostname + ':' + portno + "/linkquizqorder/" +
+                quizObj.id + "/" + quizObj.questionOrders[a].id,
                 method: 'PUT',
                 client: httpclient
               }, function(error, response, body) {
