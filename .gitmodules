@@ -1,3 +1,6 @@
 [submodule "lib/persistencejs"]
 	path = lib/persistencejs
 	url = git://github.com/chrisirhc/persistencejs.git
+[submodule "lib/step"]
+	path = lib/step
+	url = http://github.com/creationix/step.git
