@@ -14,6 +14,7 @@ module.exports = {
       name: "Profile",
       short_name: "p",
       privacy: 0,
+      description: "This is the default profile quiz.",
       creation_time: new Date("October 4, 2010 21:21:00"),
       questionOrders: [
         {

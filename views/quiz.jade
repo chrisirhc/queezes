@@ -9,7 +9,7 @@ form#quiz(method="post")
           - each answerOrder in answerOrders[key]
             li
               label
-                input(type="radio", name=questionOrder.question.id)
+                input(type="radio", name=questionOrder.question.id, value=answerOrder.answer.id)
                 span= answerOrder.answer.content
           //- Show the open-ended input box if it's open-ended
           - if(questionOrder.question.open_ended)

@@ -1,7 +1,8 @@
 !!!
 html
   head
-    title Queez.es
+    - var title = title || "";
+    title Queez.es #{title}
     //- Nice fonts
     link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Cantarell&subset=latin", type="text/css")
     link(rel="stylesheet", href="/css/style.css")
@@ -12,7 +13,17 @@ html
     #container
       #topbar
         #logo
-          img(src="/img/logo.png", alt="Queez.es")
+          a(href="/")
+            img(src="/img/logo.png", alt="Queez.es")
+        #loginbox
+          - if(this.user_name)
+            span Hi, #{this.user_name}
+            \n
+            a(href="/logout")
+              | Logout (This is not you?)
+          - else
+            a(href="/login") Who are you?
+        .clearbox
       #contents!= body
         .clearbox
       #footer &copy;2010 Chris Chua

@@ -1,8 +1,7 @@
 - if (quizzes.length)
-  h1 Quizzes!
+  h1 Quizzes
   #quizzes
-    ul
+    ul.quizzes
       - each quiz in quizzes
         li
           a(href='/' + quiz.short_name)= quiz.name
-          | test
