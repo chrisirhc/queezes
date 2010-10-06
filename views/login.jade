@@ -1,0 +1,22 @@
+h1 Login
+form#quiz(method="post")
+  ol.questions
+    li
+      span.question Who are you?
+      ol.answers
+        li
+          label
+            - var randomnames = ["chris", "@chrisirhc"];
+            - var randomname = randomnames[Math.floor(Math.random()*randomnames.length)];
+            input(type="text", name="user_name", placeholder=randomname)
+    li
+      span.question What's your secret passphrase?
+      ol.answers
+        li
+          label
+            input(type="text", name="passphrase", placeholder="freshly squeezed")
+  input(type="hidden", name="redirecturl", value=redirecturl)
+  input(type="submit", value="Done!")
+
+#quizinfo
+  | Don't worry, if you're new, we'll register you from here. :)
