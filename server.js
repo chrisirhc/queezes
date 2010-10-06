@@ -5,6 +5,7 @@ var express = require('express');
 var datastore = require('./lib/datastore');
 var persistence = datastore.persistence;
 var persistenceStore = datastore.persistenceStore;
+var MemoryStore = require('connect/middleware/session/memory');
 
 var app = express.createServer();
 
@@ -17,6 +18,11 @@ app.configure(function() {
   /** if it's a file, serve it **/
   app.use(express.compiler({src: __dirname + '/public', enable: ['less']}));
   app.use(express.staticProvider(__dirname + '/public'));
+
+  /** Support for sessions **/
+  app.use(express.cookieDecode());
+  app.use(express.session({ store: new MemoryStore()});
+
   app.use(express.logger());
   app.use(express.bodyDecoder());
   app.use(express.methodOverride());
