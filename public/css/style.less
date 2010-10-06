@@ -23,17 +23,38 @@ Line  is probably 18px
 body {
   font: 18px 'Cantarell', arial, serif;
   width: 940px;
+  margin: 0 auto;
   background: #033540;
   line-height: 1em;
 }
 
+a {
+  color: #fff;
+}
+
+a img {
+  border: 0;
+}
+
+#logo {
+  float: left;
+}
+
+#loginbox {
+  float: right;
+  font-size: 0.5em;
+  a {
+    color: @brightyellow;
+  }
+}
+
 #container {
-  margin: 0 auto;
   padding: 0 10px;
   h1 {
     margin: 0;
     font-size: 2em;
     line-height: 2em;
+    text-decoration: underline;
   }
   color: #fff;
 }
@@ -90,7 +111,8 @@ form#quiz {
   ol.answers {
     list-style-type: none;
     li {
-      padding: 0.5em;
+      padding: 0;
+      // padding: 0.5em;
     }
     li:hover {
       .rounded_corners(5px);
@@ -98,10 +120,13 @@ form#quiz {
     }
     li:active {
       border: 4px #ccc dotted;
-      padding: (0.5*@lineheight) - 4px;
+      label {
+        padding: (0.5*@lineheight) - 4px;
+      }
     }
     label {
       display: block;
+      padding: 0.5em;
       span {
         padding-left: 0.5em;
       }

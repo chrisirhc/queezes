@@ -20,8 +20,8 @@ app.configure(function() {
   app.use(express.staticProvider(__dirname + '/public'));
 
   /** Support for sessions **/
-  app.use(express.cookieDecode());
-  app.use(express.session({ store: new MemoryStore()});
+  app.use(express.cookieDecoder());
+  app.use(express.session({ store: new MemoryStore() }));
 
   app.use(express.logger());
   app.use(express.bodyDecoder());

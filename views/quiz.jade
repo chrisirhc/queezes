@@ -18,9 +18,7 @@ form#quiz(method="post")
                 //- Show the open-ended text for input box
                 - if(questionOrder.question.open_ended_text)
                   span= questionOrder.question.open_ended_text
-                    input(type="text")
-                - else
-                  input(type="text")
+                input(type="text", name=questionOrder.question.id + "_o")
   input(type="submit", value="Done!")
 
 #updownbar
