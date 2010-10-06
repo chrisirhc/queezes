@@ -1,3 +1,143 @@
+/*
+778000, B4BF00, FFF650, 033540, 26DAE6
+*/
+.rounded_corners (@radius: 5px) {
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.clearbox {
+  clear: both;
+}
+
+@lineheight: 18px;
+@darkyellow: #778000;
+@brightyellow: #FFF650;
+@midyellow: #B4BF00;
+
+/*
+Line  is probably 18px
+*/
+
 body {
-  font: 16px 'Cantarell', arial, serif;
+  font: 18px 'Cantarell', arial, serif;
+  width: 940px;
+  background: #033540;
+  line-height: 1em;
+}
+
+#container {
+  margin: 0 auto;
+  padding: 0 10px;
+  h1 {
+    margin: 0;
+    font-size: 2em;
+    line-height: 2em;
+  }
+  color: #fff;
+}
+
+#contents {
+  background: #26DAE6 url(../img/bg.gif);
+  .rounded_corners(10px);
+  padding: 1em;
+  color: #000;
+}
+
+#footer {
+  padding: 0.5em 0.5em 0 0.5em;
+}
+
+form#quiz {
+  background: #eee;
+  .rounded_corners(10px);
+  width: 460px;
+  padding: 0.5em;
+  float: left;
+
+  input[type=text] {
+    border: 1px solid #ccc;
+    height: 18px;
+    width: 200px;
+  }
+  ol {
+    color: #999;
+    margin: 0;
+    list-style-position: inside;
+    padding: 0;
+    li {
+      padding: 0.5em 1em;
+    }
+    span {
+      color: #000;
+    }
+  }
+  ol.questions {
+    > li {
+      border-top: 1px solid #ccc;
+      padding-top: (0.5*@lineheight) - 1;
+    }
+    > li:first-child {
+      border-top: 0;
+      padding-top: (0.5*@lineheight);
+    }
+    > li:hover {
+      background: #fff;
+      .rounded_corners(5px);
+    }
+  }
+  ol.answers {
+    list-style-type: none;
+    li {
+      padding: 0.5em;
+    }
+    li:hover {
+      .rounded_corners(5px);
+      background: @brightyellow;
+    }
+    li:active {
+      border: 4px #ccc dotted;
+      padding: (0.5*@lineheight) - 4px;
+    }
+    label {
+      display: block;
+      span {
+        padding-left: 0.5em;
+      }
+    }
+  }
+  input[type=submit] {
+    display: block;
+    width: 100%;
+    border: 4px solid @brightyellow;
+    padding: @lineheight/2 - 4;
+    .rounded_corners(5px);
+    font: 1.5em 'Cantarell', arial, serif;
+    background: @midyellow;
+  }
+  input[type=submit]:active {
+    background: @brightyellow;
+    border: 4px solid @midyellow;
+  }
+}
+
+#updownbar {
+  float: left;
+  margin-left: 10px;
+}
+
+#quizinfo {
+  background: #033540;
+  .rounded_corners(10px);
+  width: 274px;
+  float: right;
+  color: @brightyellow;
+  line-height: @lineheight * 1.5;
+  padding: 1em;
+}
+
+.question {
+  font-size: 1.5em;
+  line-height: @lineheight * 2;
 }

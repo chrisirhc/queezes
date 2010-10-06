@@ -1,19 +1,34 @@
 h1 #{quiz.name} (#{quiz.short_name}) Quiz
-form#quiz
-  ul
+form#quiz(method="post")
+  ol.questions
     - each questionOrder, key in questionOrders
       li
-        .head= questionOrder.question.content
-          ul
-            //- List out all the answers
-            - each answerOrder in answerOrders[key]
-              li= answerOrder.answer.content
-            //- Show the open-ended input box if it's open-ended
-            - if(questionOrder.question.open_ended)
-              li
+        span.question= questionOrder.question.content
+        ol.answers
+          //- List out all the answers
+          - each answerOrder in answerOrders[key]
+            li
+              label
+                input(type="radio", name=questionOrder.question.id)
+                span= answerOrder.answer.content
+          //- Show the open-ended input box if it's open-ended
+          - if(questionOrder.question.open_ended)
+            li
+              label
                 //- Show the open-ended text for input box
                 - if(questionOrder.question.open_ended_text)
-                  label= questionOrder.question.open_ended_text
+                  span= questionOrder.question.open_ended_text
                     input(type="text")
                 - else
                   input(type="text")
+  input(type="submit", value="Done!")
+
+#updownbar
+  #uparr
+    img(src="img/uparrow.png", height="252")
+  #downarr
+    img(src="img/downarrow.png", height="252")
+
+#quizinfo
+  | You're taking the <strong>#{quiz.name}</strong> quiz created by <i>#{quiz.author}</i>.
+  | \n Have fun!
