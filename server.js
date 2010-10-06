@@ -62,7 +62,7 @@ app.configure(function() {
 });
 // local testing
 app.configure('production', function() {
-  app.use(express.errorHandler());
+  // app.use(express.errorHandler());
   app.listen(80);
   console.log("Listening to 80");
 });
