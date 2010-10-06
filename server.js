@@ -10,7 +10,7 @@ var MemoryStore = require('connect/middleware/session/memory');
 var app = express.createServer();
 
 /** debugging **/
-app.set('env', 'development');
+app.set('env', 'production');
 
 app.set('view engine', 'jade');
 /** API **/
