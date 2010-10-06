@@ -9,7 +9,7 @@ form#quiz(method="post")
           - each answerOrder in answerOrders[key]
             li
               label
-                input(type="radio", name=questionOrder.question.id, value=answerOrder.answer.id)
+                input(type="radio", name=questionOrder.question.id, value=answerOrder.answer.id, checked=(attempts[key] && (answerOrder.answer.id == attempts[key].answer.id) ? "checked" : ""))
                 span= answerOrder.answer.content
           //- Show the open-ended input box if it's open-ended
           - if(questionOrder.question.open_ended)
@@ -18,7 +18,8 @@ form#quiz(method="post")
                 //- Show the open-ended text for input box
                 - if(questionOrder.question.open_ended_text)
                   span= questionOrder.question.open_ended_text
-                input(type="text", name=questionOrder.question.id + "_o")
+                input(type="text", name=questionOrder.question.id + "_o", value=(attempts[key] && attempts[key].answer.content) || "")
+  input(type="hidden", name="quizid", value=quiz.id)
   input(type="submit", value="Done!")
 
 #updownbar
@@ -28,5 +29,9 @@ form#quiz(method="post")
     img(src="img/downarrow.png", height="252")
 
 #quizinfo
-  | You're taking the <strong>#{quiz.name}</strong> quiz created by <i>#{quiz.author}</i>.
+  | You're taking the <strong>#{quiz.name}</strong> quiz
+  - if (quiz.author)
+    | created by <i>#{quiz.author}</i>.
+  - else
+    | .
   | \n Have fun!
