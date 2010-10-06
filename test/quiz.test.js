@@ -3,10 +3,10 @@ assert = require('assert'),
 http = require('http'),
 _ = require('../lib/underscore-min')._;
 
-var hostname = '127.0.0.1';
-var portno = '3000';
+var hostname = 'queez.es';
+var portno = 80;
 /** note that a single client is used to ensure requests are synchronous **/
-var httpclient = http.createClient(3000, hostname);
+var httpclient = http.createClient(portno, hostname);
 
 module.exports = {
   'sample questions for the default profile': function() {
