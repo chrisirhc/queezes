@@ -2,7 +2,7 @@ h1 Login
 form#quiz(method="post")
   ol.questions
     li
-      span.question Who are you?
+      h3.question Who are you?
       ol.answers
         li.open-ended
           label
@@ -10,7 +10,7 @@ form#quiz(method="post")
             - var randomname = randomnames[Math.floor(Math.random()*randomnames.length)];
             input(type="text", name="user_name", placeholder=randomname)
     li
-      span.question What's your <del>secret</del> passphrase?
+      h3.question What's your <del>secret</del> passphrase?
       ol.answers
         li.open-ended
           label
