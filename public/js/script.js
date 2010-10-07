@@ -4,37 +4,9 @@ $(function() {
     $updownbar = $("#updownbar"), $quizedit = $("#quizedit");
   /** If it's a quiz page **/
   if($quiz.length) {
-    if (!$updownbar.length) {
-      $quiz.animate({width: '+=' + 75});
-      /*
-    }
-    if ($quiz.height() <= $updownbar.height() - lineheight) {
-      */
-    } else {
-      $updownbar.fadeOut(function() {
-        $quiz.animate({width: '+=' + 75});
-      });
-    }
-      /*
-    } else {
-      $quiz.height(
-        $updownbar.height() - lineheight
-      ).css("overflow", "auto");
-    }
-  */
 
     sQuizId = $("#quiz input[name=quizid]").val();
     $allanswerperquestion = $("ol.answers");
-
-    /*
-    $("li", $allanswerperquestion).each(function() {
-      .has(":checked").addClass("chosen");
-    });
-    */
-
-      /*
-    $("li", $allanswerperquestion)
-    */
 
     $("input[type=text]").focus(function (e) {
       $(e.target).data("original_value" , $(e.target).val());
@@ -62,6 +34,8 @@ $(function() {
     $("ol.questions") .accordion({
       collapsible: true,
       header: "li[data-item-type=questionOrder] > h3"
+    }).find("> li").each(function(i, obj) {
+      $(obj).click(function(e) {$("ol.questions").accordion("activate", i); });
     });
     $("ol.questions, ol.questions li ol.answers", $quizedit)
     .sortable({
@@ -110,12 +84,13 @@ $(function() {
           });
         });
       }
-      if(isopenended = !$li.is(".open-ended")) {
+      if(!(isopenended = $li.is(".open-ended"))) {
         controlsBox.append(butEdit);
       }
       controlsBox.append(butAdd);
-      if(isopenended) {
+      if(!isopenended) {
         controlsBox.append(butRemove);
+
       }
       controlsBox.appendTo(li).hide();
 
