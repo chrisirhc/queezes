@@ -1,3 +1,5 @@
+@import url("reset.css");
+
 /*
 778000, B4BF00, FFF650, 033540, 26DAE6
 */
@@ -11,7 +13,8 @@
   clear: both;
 }
 
-@lineheight: 18px;
+@fontsize: 16px;
+@lineheight: 20px;
 @darkyellow: #778000;
 @brightyellow: #FFF650;
 @midyellow: #B4BF00;
@@ -23,11 +26,11 @@ Line  is probably 18px
 */
 
 body {
-  font: 18px 'Cantarell', arial, serif;
+  font: @fontsize 'Cantarell', arial, serif;
   width: 940px;
   margin: 0 auto;
   background: #033540;
-  line-height: 1em;
+  line-height: @lineheight;
 }
 
 a {
@@ -44,7 +47,7 @@ a img {
 
 #loginbox {
   float: right;
-  font-size: 0.5em;
+  font-size: 0.75 * @fontsize;
   a {
     color: @brightyellow;
   }
@@ -52,19 +55,20 @@ a img {
 
 #container {
   padding: 0 10px;
-  h1 {
-    margin: 0;
-    font-size: 2em;
-    line-height: 2em;
-    text-decoration: underline;
-  }
   color: #fff;
+
+  h1 {
+    font-size: 2*@fontsize;
+    line-height: 2*@lineheight;
+    text-decoration: underline;
+    text-shadow: 1px 1px #ccc;
+  }
 }
 
 #contents {
   background: #26DAE6 url(../img/bg.gif);
   .rounded_corners(10px);
-  padding: 1em;
+  padding: 0.5*@lineheight;
   color: #000;
   a {
     color: @darkblue;
@@ -72,28 +76,23 @@ a img {
 }
 
 #footer {
-  padding: 0.5em 0.5em 0 0.5em;
+  padding: 0.5*@lineheight 0.5*@lineheight 0 0.5*@lineheight;
 }
 
 #quizzes, form#quiz {
   background: #eee;
   .rounded_corners(10px);
   width: 460px;
-  padding: 0.5em;
+  padding: 0.5*@lineheight;
   float: left;
 
-  input[type=text] {
-    border: 1px solid #ccc;
-    height: 18px;
-    width: 200px;
-  }
   ul, ol {
     color: #999;
     margin: 0;
     list-style-position: inside;
     padding: 0;
     li {
-      padding: 0.5em 1em;
+      padding: 0.5*@lineheight @lineheight;
     }
     span {
       color: #000;
@@ -101,12 +100,8 @@ a img {
   }
   ul.quizzes, ol.questions {
     > li {
-      border-top: 1px solid #ccc;
-      padding-top: (0.5*@lineheight) - 1;
-    }
-    > li:first-child {
-      border-top: 0;
-      padding-top: (0.5*@lineheight);
+      border-bottom: 1px solid #ccc;
+      padding-bottom: (0.5*@lineheight) - 1;
     }
     > li:hover {
       background: #fff;
@@ -117,34 +112,51 @@ a img {
     list-style-type: none;
     li {
       padding: 0;
+      .rounded_corners(5px);
       // padding: 0.5em;
     }
     li:hover {
-      .rounded_corners(5px);
       background: @brightyellow;
     }
-    li:active {
+    li:active, li.chosen {
       border: 4px #ccc dotted;
       label {
-        padding: (0.5*@lineheight) - 4px;
+        padding: (0.5*@lineheight) - 4;
       }
     }
     label {
       display: block;
-      padding: 0.5em;
+      padding: 0.5*@lineheight;
       span {
-        padding-left: 0.5em;
+        padding-left: 0.5*@lineheight;
       }
     }
+    li.open-ended:active label {
+      padding: (0.5*@lineheight - 4 - 2) 0.5*@lineheight - 4;
+    }
+    li.open-ended label {
+      padding: (0.5*@lineheight - 2) 0.5*@lineheight;
+    }
   }
+  input[type=text] {
+    border: 1px solid #ccc;
+    padding: 1px;
+    width: 200px;
+    font-size: @fontsize;
+    height: @lineheight;
+    font-family: 'Cantarell', arial, serif;
+  }
+
   input[type=submit] {
     display: block;
     width: 100%;
     border: 4px solid @brightyellow;
     padding: @lineheight/2 - 4;
     .rounded_corners(5px);
-    font: 1.5em 'Cantarell', arial, serif;
+    font-size: 1.5*@fontsize;
+    height: 3*@lineheight;
     background: @midyellow;
+    margin-top: @lineheight / 2;
   }
   input[type=submit]:active {
     background: @brightyellow;
@@ -164,10 +176,10 @@ a img {
   float: right;
   color: @brightyellow;
   line-height: @lineheight * 1.5;
-  padding: 1em;
+  padding: @lineheight;
 }
 
 .question {
-  font-size: 1.5em;
+  font-size: 1.5*@fontsize;
   line-height: @lineheight * 2;
 }

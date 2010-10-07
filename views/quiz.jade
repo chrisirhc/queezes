@@ -13,7 +13,7 @@ form#quiz(method="post")
                 span= answerOrder.answer.content
           //- Show the open-ended input box if it's open-ended
           - if(questionOrder.question.open_ended)
-            li
+            li.open-ended
               label
                 //- Show the open-ended text for input box
                 - if(questionOrder.question.open_ended_text)
