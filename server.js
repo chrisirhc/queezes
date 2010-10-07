@@ -15,6 +15,9 @@ app.set('env', 'development');
 app.set('view engine', 'jade');
 /** API **/
 app.configure(function() {
+  app.use(express.conditionalGet());
+  app.use(express.cache());
+  app.use(express.gzip());
   /** if it's a file, serve it **/
   app.use(express.compiler({src: __dirname + '/public', enable: ['less']}));
   app.use(express.staticProvider(__dirname + '/public'));
