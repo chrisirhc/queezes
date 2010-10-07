@@ -9,7 +9,24 @@ var portno = '3000';
 var httpclient = http.createClient(3000, hostname);
 
 module.exports = {
-  'sample questions for the default profile': function() {
+  'sample user (myself)': function () {
+    var user = {
+      id: 'C566218CF7654AED8DB5A53D12145ADD',
+      user_name: 'chris',
+      passphrase: 'freshly squeezed'
+    };
+    request({
+      uri: 'http://' + hostname + ':' + portno + "/user",
+      method: 'POST',
+      client: httpclient,
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(user)
+    }, function (error, response, body) {
+      assert.equal(201, response.statusCode, 'Test created User');
+      console.log("User created");
+    });
+  },
+  'sample questions for the default profile': function () {
     var quizObj = {
       name: "Profile",
       short_name: "p",

@@ -35,6 +35,12 @@ app.configure(function() {
     req.renderlocal = renderlocal;
     req.user = req.session.userId || null;
     req.renderlocal.user_name = req.session.user_name || null;
+
+    /** Autologin for development **/
+    app.configure('development', function() {
+      req.user = req.session.userId = 'C566218CF7654AED8DB5A53D12145ADD';
+      req.renderlocal.user_name = req.session.user_name = 'chris';
+    });
     next();
   });
 
@@ -55,10 +61,16 @@ app.configure(function() {
       next();
     });
   });
+  app.get('/reset', function(req, res, next) {
+    req.conn.reset(req.tx, function() {
+        res.send(200);
+        res.end();
+    });
+  });
   app.get('/init', function(req, res, next) {
     req.conn.reset(req.tx, function() {
       req.conn.schemaSync(req.tx, function() {
-        res.send("Database setup");
+        res.redirect("/");
         res.end();
       });
     });
