@@ -20,7 +20,7 @@ form#quiz(method="post")
                   span= questionOrder.question.open_ended_text
                 input(type="text", name=questionOrder.question.id + "_o", value=(attempts[key] && attempts[key].answer.content) || "")
   input(type="hidden", name="quizid", value=quiz.id)
-  input(type="submit", value="Done!")
+  input(type="submit", name="fullsubmit", value="Done!")
 
 #updownbar
   #uparr

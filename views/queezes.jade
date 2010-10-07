@@ -4,4 +4,5 @@
     ul.quizzes
       - each quiz in quizzes
         li
-          a(href='/' + quiz.short_name)= quiz.name
+          a(href='/' + quiz.short_name)
+            h3= quiz.name
