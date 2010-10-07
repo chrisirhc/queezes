@@ -26,13 +26,15 @@ app.configure(function() {
   app.use(express.cookieDecoder());
   app.use(express.session({ store: new MemoryStore() }));
 
+  var renderlocal = {};
+  var renderoptions = {scope: renderlocal};
+  app.set('view options', renderoptions);
+
   /** setup user **/
   app.use(function(req, res, next) {
-    req.renderlocal = {};
+    req.renderlocal = renderlocal;
     req.user = req.session.userId || null;
     req.renderlocal.user_name = req.session.user_name || null;
-    req.renderoptions = {scope: req.renderlocal};
-    app.set('view options', req.renderoptions);
     next();
   });
 

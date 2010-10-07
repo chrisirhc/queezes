@@ -3,7 +3,7 @@ form#quiz(method="post")
   ol.questions
     - each questionOrder, key in questionOrders
       li
-        span.question= questionOrder.question.content
+        h3.question= questionOrder.question.content
         ol.answers
           //- List out all the answers
           - each answerOrder in answerOrders[key]
