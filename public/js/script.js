@@ -46,6 +46,7 @@ $(function() {
           $(e.target).closest("li").addClass("chosen");
         } else {
           $(e.target).val($(e.target).data("original_value"));
+          return;
         }
       } else {
         $(e.target).closest("ol").find("li").removeClass("chosen")
