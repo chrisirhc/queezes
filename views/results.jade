@@ -1,0 +1,18 @@
+h1 #{quiz.name} (#{quiz.short_name}) Quiz Results
+#results.leftarea
+  ol.results
+    - each decisionObj, key in decisionObjs
+      li
+        h3.question= decisionObj.result.title
+        p= decisionObj.result.content
+
+#infobar You've taken the <strong>#{quiz.name}</strong> quiz
+  - if (quiz.author)
+    | 
+    | created by <i>#{quiz.author}</i>.
+  - else
+    |.
+  br= quiz.description
+  p If you don't see any results, it might be because you didn't complete the quiz.
+    | 
+    a(href="/"+quiz.short_name) Click here to head back!

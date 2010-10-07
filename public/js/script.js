@@ -21,15 +21,26 @@ $(function() {
         $updownbar.height() - lineheight
       ).css("overflow", "auto");
     }
+  */
 
+    sQuizId = $("#quiz input[name=quizid]").val();
     $allanswerperquestion = $("ol.answers");
-    $("li", $allanswerperquestion).removeClass("chosen")
+
+    /*
+    $("li", $allanswerperquestion).each(function() {
       .has(":checked").addClass("chosen");
+    });
+    */
+
+      /*
     $("li", $allanswerperquestion)
-    $("input[type=text]").focus(function(e) {
+    */
+
+    $("input[type=text]").focus(function (e) {
       $(e.target).data("original_value" , $(e.target).val());
     });
-    $("input", $allanswerperquestion).change(function(e) {
+
+    $("input", $allanswerperquestion).change(function (e) {
       if($(e.target).is("[type=text]")) {
         if($(e.target).val().length) {
           $(e.target).closest("li").addClass("chosen");
@@ -40,8 +51,12 @@ $(function() {
         $(e.target).closest("ol").find("li").removeClass("chosen")
           .has(":checked").addClass("chosen");
       }
+
+      $.post(document.location,
+      $(e.target).closest(".answers").find("input").serialize() + "&quizid=" + sQuizId, function (data) {
+        $(e.target).closest("li").effect("highlight");
+      });
     });
-  */
   }
   /** Time to add in the scroll to later **/
 });

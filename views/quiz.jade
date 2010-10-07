@@ -3,7 +3,7 @@ form#quiz(method="post")
   ol.questions
     - each questionOrder, key in questionOrders
       li
-        span.question= questionOrder.question.content
+        h3.question= questionOrder.question.content
         ol.answers
           //- List out all the answers
           - each answerOrder in answerOrders[key]
@@ -20,7 +20,7 @@ form#quiz(method="post")
                   span= questionOrder.question.open_ended_text
                 input(type="text", name=questionOrder.question.id + "_o", value=(attempts[key] && attempts[key].answer.content) || "")
   input(type="hidden", name="quizid", value=quiz.id)
-  input(type="submit", value="Done!")
+  input(type="submit", name="fullsubmit", value="Done!")
 
 #updownbar
   #uparr
@@ -28,7 +28,7 @@ form#quiz(method="post")
   #downarr
     img(src="img/downarrow.png", height="252")
 
-#quizinfo
+#infobar
   | You're taking the <strong>#{quiz.name}</strong> quiz
   - if (quiz.author)
     | created by <i>#{quiz.author}</i>.

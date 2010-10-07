@@ -79,7 +79,7 @@ a img {
   padding: 0.5*@lineheight 0.5*@lineheight 0 0.5*@lineheight;
 }
 
-#quizzes, form#quiz {
+.leftarea, #quizzes, form#quiz {
   background: #eee;
   .rounded_corners(10px);
   width: 460px;
@@ -89,14 +89,24 @@ a img {
   ul, ol {
     color: #999;
     margin: 0;
-    list-style-position: inside;
     padding: 0;
     li {
       padding: 0.5*@lineheight @lineheight;
     }
+    h3 {
+      display: inline;
+      font-weight: normal;
+      color: #000;
+      font-size: 1.5*@fontsize;
+      line-height: @lineheight * 2;
+    }
     span {
       color: #000;
     }
+  }
+  ol {
+    list-style-position: inside;
+    list-style-type: decimal;
   }
   ul.quizzes, ol.questions {
     > li {
@@ -111,6 +121,7 @@ a img {
   ol.answers {
     list-style-type: none;
     li {
+      margin-left: 20px;
       padding: 0;
       .rounded_corners(5px);
       // padding: 0.5em;
@@ -119,10 +130,14 @@ a img {
       background: @brightyellow;
     }
     li:active, li.chosen {
-      border: 4px #ccc dotted;
       label {
+        .rounded_corners(5px);
+        border: 4px #ccc dotted;
         padding: (0.5*@lineheight) - 4;
       }
+    }
+    span {
+      color: @darkblue;
     }
     label {
       display: block;
@@ -131,17 +146,25 @@ a img {
         padding-left: 0.5*@lineheight;
       }
     }
-    li.open-ended:active label {
-      padding: (0.5*@lineheight - 4 - 2) 0.5*@lineheight - 4;
+    li.open-ended:active label, li.open-ended.chosen label {
+      padding: (0.5*@lineheight - 4 - 2) 0.5*@lineheight - 4 (0.5*@lineheight - 4 - 2) (0.5*@lineheight + 25px - 4px);
     }
     li.open-ended label {
-      padding: (0.5*@lineheight - 2) 0.5*@lineheight;
+      padding: (0.5*@lineheight - 2) 0.5*@lineheight (0.5*@lineheight - 2) (0.5*@lineheight + 25px);
     }
   }
+  input[type=radio] {
+    display: block;
+    float: left;
+    margin: 0;
+    height: 20px;
+    width: 20px;
+  }
   input[type=text] {
+    color: @darkblue;
     border: 1px solid #ccc;
     padding: 1px;
-    width: 200px;
+    width: 100%;
     font-size: @fontsize;
     height: @lineheight;
     font-family: 'Cantarell', arial, serif;
@@ -169,7 +192,7 @@ a img {
   margin-left: 10px;
 }
 
-#quizinfo {
+#infobar {
   background: #033540;
   .rounded_corners(10px);
   width: 274px;
@@ -177,9 +200,7 @@ a img {
   color: @brightyellow;
   line-height: @lineheight * 1.5;
   padding: @lineheight;
-}
-
-.question {
-  font-size: 1.5*@fontsize;
-  line-height: @lineheight * 2;
+  a {
+    color: @brightyellow;
+  }
 }
