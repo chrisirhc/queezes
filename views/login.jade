@@ -10,7 +10,7 @@ form#quiz(method="post")
             - var randomname = randomnames[Math.floor(Math.random()*randomnames.length)];
             input(type="text", name="user_name", placeholder=randomname)
     li
-      span.question What's your secret passphrase?
+      span.question What's your <del>secret</del> passphrase?
       ol.answers
         li.open-ended
           label
@@ -18,5 +18,5 @@ form#quiz(method="post")
   input(type="hidden", name="redirecturl", value=redirecturl)
   input(type="submit", value="Done!")
 
-#quizinfo
+#infobar
   | Don't worry, if you're new, we'll register you from here. :)

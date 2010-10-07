@@ -21,6 +21,7 @@ $(function() {
         $updownbar.height() - lineheight
       ).css("overflow", "auto");
     }
+  */
 
     $allanswerperquestion = $("ol.answers");
     $("li", $allanswerperquestion).removeClass("chosen")
@@ -41,7 +42,6 @@ $(function() {
           .has(":checked").addClass("chosen");
       }
     });
-  */
   }
   /** Time to add in the scroll to later **/
 });

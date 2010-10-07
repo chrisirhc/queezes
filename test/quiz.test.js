@@ -58,7 +58,7 @@ module.exports = {
                 answer: {
                   content: "Male"
                 },
-                weight: 0
+                weight: 1
               }
             ]
           },
@@ -79,6 +79,36 @@ module.exports = {
             open_ended: true
           },
           weight: 3
+        }
+      ],
+      decisionRules: [
+        {
+          scriptcontent: "return answers[1] == 'Female';",
+          result: {
+            title: "Welcome babe!",
+            content: "We don't get many of you around here."
+          }
+        },
+        {
+          scriptcontent: "return answers[1] == 'Male';",
+          result: {
+            title: "Welcome dude!",
+            content: ""
+          }
+        },
+        {
+          scriptcontent: "return (answers[2] > 40 && answers[2] < 60);",
+          result: {
+            title: "Middle-aged?",
+            content: "Your mid-life crises end now!"
+          }
+        },
+        {
+          scriptcontent: "return answers[2] < 18;",
+          result: {
+            title: "Minor alert!",
+            content: "Don't worry, your data is kept safe."
+          }
         }
       ]
     };
@@ -173,6 +203,40 @@ module.exports = {
           }
         })(a));
       }
+
+      /** Setup the Decision Rules **/
+
+      quizObj.decisionRules.forEach(function (dObj, i) {
+        request({
+          uri: 'http://' + hostname + ':' + portno + "/result",
+          method: 'POST',
+          client: httpclient,
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(dObj.result)
+        }, function (err, response, body) {
+          assert.equal(201, response.statusCode, 'Test created Result');
+          dObj.result.id = JSON.parse(body).id;
+          request({
+            uri: 'http://' + hostname + ':' + portno + "/decisionRule",
+            method: 'POST',
+            client: httpclient,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(dObj)
+          }, function (err, response, body) {
+            assert.equal(201, response.statusCode, 'Test created DecisionRule');
+            dObj.id = JSON.parse(body).id;
+            request({
+              uri: 'http://' + hostname + ':' + portno + "/linkquizdrule/" +
+              quizObj.id + "/" + dObj.id,
+              method: 'PUT',
+              client: httpclient
+            }, function(error, response, body) {
+              console.log("Decision Rule " + i + " inserted.");
+            });
+          });
+        });
+      });
+
     });
   },
 };

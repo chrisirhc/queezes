@@ -79,7 +79,7 @@ a img {
   padding: 0.5*@lineheight 0.5*@lineheight 0 0.5*@lineheight;
 }
 
-#quizzes, form#quiz {
+.leftarea, #quizzes, form#quiz {
   background: #eee;
   .rounded_corners(10px);
   width: 460px;
@@ -144,14 +144,11 @@ a img {
         padding-left: 0.5*@lineheight;
       }
     }
-    li.open-ended {
-      padding-left: 25px;
-    }
-    li.open-ended:active label {
-      padding: (0.5*@lineheight - 4 - 2) 0.5*@lineheight - 4;
+    li.open-ended:active label, li.open-ended.chosen label {
+      padding: (0.5*@lineheight - 4 - 2) 0.5*@lineheight - 4 (0.5*@lineheight - 4 - 2) (0.5*@lineheight + 25px - 4px);
     }
     li.open-ended label {
-      padding: (0.5*@lineheight - 2) 0.5*@lineheight;
+      padding: (0.5*@lineheight - 2) 0.5*@lineheight (0.5*@lineheight - 2) (0.5*@lineheight + 25px);
     }
   }
   input[type=radio] {
@@ -193,7 +190,7 @@ a img {
   margin-left: 10px;
 }
 
-#quizinfo {
+#infobar {
   background: #033540;
   .rounded_corners(10px);
   width: 274px;
@@ -201,6 +198,9 @@ a img {
   color: @brightyellow;
   line-height: @lineheight * 1.5;
   padding: @lineheight;
+  a {
+    color: @brightyellow;
+  }
 }
 
 .question {
