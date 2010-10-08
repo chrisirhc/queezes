@@ -1,0 +1,33 @@
+h1 #{quiz.name} (#{quiz.short_name}) Quiz
+form#quizedit.leftarea(method="post")
+  ol.questions
+    - each questionOrder, key in questionOrders
+      li(data-item-type="questionOrder", data-order-id=questionOrder.id, data-weight=questionOrder.weight, data-question-id=questionOrder.question.id, data-is-open-ended=questionOrder.question.open_ended ? "true" : "false")
+        h3.question= questionOrder.question.content
+        ol.answers
+          //- List out all the answers
+          - each answerOrder in answerOrders[key]
+            li(data-item-type="answerOrder", data-order-id=answerOrder.id, data-weight=answerOrder.weight, data-answer-id=answerOrder.answer.id)
+              label
+                input(type="radio")
+                span= answerOrder.answer.content
+          //- Show the open-ended input box if it's open-ended
+          li.open-ended
+            div.fakelabel
+              div.fakeinputtext=(attempts[key] && attempts[key].answer.content) || ""
+              //- Show the open-ended text for input box
+              - if(questionOrder.question.open_ended_text)
+                span= questionOrder.question.open_ended_text
+  input(type="hidden", name="quizid", value=quiz.id)
+  //- input(type="submit", name="fullsubmit", value="Done editing!")
+
+#infobar
+  | You're editing the <strong>#{quiz.name}</strong> quiz
+  - if (quiz.author)
+    | created by <i>#{quiz.author}</i>.
+  - else
+    | .
+  | Click on the questions to see their answering options.
+  | Move your mouse of the the answering choices and question titles to see more options.
+  br= quiz.description
+  | \n Have fun!

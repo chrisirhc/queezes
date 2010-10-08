@@ -22,12 +22,6 @@ form#quiz(method="post")
   input(type="hidden", name="quizid", value=quiz.id)
   input(type="submit", name="fullsubmit", value="Done!")
 
-#updownbar
-  #uparr
-    img(src="img/uparrow.png", height="252")
-  #downarr
-    img(src="img/downarrow.png", height="252")
-
 #infobar
   | You're taking the <strong>#{quiz.name}</strong> quiz
   - if (quiz.author)
@@ -36,3 +30,5 @@ form#quiz(method="post")
     | .
   br= quiz.description
   | \n Have fun!
+  p
+    a(href="/"+quiz.short_name+"/edit") Click here to edit this quiz!
