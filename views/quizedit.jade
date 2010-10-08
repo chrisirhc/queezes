@@ -9,16 +9,15 @@ form#quizedit.leftarea(method="post")
           - each answerOrder in answerOrders[key]
             li(data-item-type="answerOrder", data-order-id=answerOrder.id, data-weight=answerOrder.weight, data-answer-id=answerOrder.answer.id)
               label
-                input(type="text", name=questionOrder.question.id, value=answerOrder.answer.content, checked=(attempts[key] && (answerOrder.answer.id == attempts[key].answer.id) ? "checked" : ""))
-//-                span= answerOrder.answer.content
-//-       //- Show the open-ended input box if it's open-ended
-//-         - if(questionOrder.question.open_ended)
-//-           li.open-ended
-//-             div.fakelabel
-//-               div.fakeinputtext=(attempts[key] && attempts[key].answer.content) || ""
-//-               //- Show the open-ended text for input box
-//-               - if(questionOrder.question.open_ended_text)
-//-                 span= questionOrder.question.open_ended_text
+                input(type="radio")
+                span= answerOrder.answer.content
+          //- Show the open-ended input box if it's open-ended
+          li.open-ended
+            div.fakelabel
+              div.fakeinputtext=(attempts[key] && attempts[key].answer.content) || ""
+              //- Show the open-ended text for input box
+              - if(questionOrder.question.open_ended_text)
+                span= questionOrder.question.open_ended_text
   input(type="hidden", name="quizid", value=quiz.id)
   //- input(type="submit", name="fullsubmit", value="Done editing!")
 

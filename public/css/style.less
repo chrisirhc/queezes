@@ -192,6 +192,9 @@ a img {
     border: 4px solid @midyellow;
   }
 
+  .ui-accordion-header {
+    cursor: pointer;
+  }
   .controlsbox {
     position: absolute;
     top: 0px;
@@ -212,6 +215,10 @@ a img {
     label {
       width: auto;
     }
+  }
+
+  [data-is-open-ended=false] li.open-ended .fakeinputtext {
+    border-style: dashed;
   }
 }
 
