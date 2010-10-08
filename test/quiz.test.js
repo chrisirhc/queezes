@@ -239,4 +239,205 @@ module.exports = {
 
     });
   },
+  'sample questions for the another quiz': function () {
+    var quizObj = {
+      name: "What processor are you?",
+      short_name: "processor",
+      privacy: 0,
+      description: "This is the default profile quiz.",
+      creation_time: new Date("October 4, 2010 21:21:00"),
+      questionOrders: [
+        {
+          question: {
+            content: "Are you taking HCI?",
+            short_name: 'takinghci',
+            answerOrders: [
+              {
+                answer: {
+                  content: "Yes"
+                },
+                weight: 0
+              },
+              {
+                answer: {
+                  content: "No"
+                },
+                weight: 1
+              }
+            ]
+          },
+          weight: 0
+        },
+        {
+          question: {
+            content: "What is your gender?",
+          },
+          weight: 1
+        },
+        {
+          question: {
+            content: "PC or Mac?",
+            short_name: 'dellmac',
+            answerOrders: [
+              {
+                answer: {
+                  content: "Dell"
+                },
+                weight: 0
+              },
+              {
+                answer: {
+                  content: "Mac"
+                },
+                weight: 1
+              }
+            ]
+          },
+          weight: 2
+        }
+      ],
+      decisionRules: [
+        {
+          scriptcontent: "return Math.random() > 0.5;",
+          result: {
+            title: "You're an AMD!",
+            content: "An example of a totally random result"
+          }
+        },
+        {
+          scriptcontent: "return answers[0] == 'Yes';",
+          result: {
+            title: "Then again, maybe you're from out of this world",
+            content: ""
+          }
+        }
+      ]
+    };
+    shallowQuizObj = _.clone(quizObj);
+    delete shallowQuizObj.questionOrders;
+    /** Typical quiz generation. Seems rather complex **/
+    /**
+     * It's only complex for generation of a quiz out of nothing
+     * in a normal process it'll be built from scratch
+     **/
+    request({
+      uri: 'http://' + hostname + ':' + portno + "/quiz",
+      method: 'POST',
+      client: httpclient,
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(shallowQuizObj)
+    }, function (error, response, body) {
+      /** Set the ID returned **/
+      quizObj.id = JSON.parse(body).id;
+      console.log(quizObj.id);
+      for (var a in quizObj.questionOrders) {
+        /** Setup the questions **/
+        request({
+          uri: 'http://' + hostname + ':' + portno + "/question",
+          method: 'POST',
+          client: httpclient,
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(quizObj.questionOrders[a].question)
+        }, (function(a) {
+          return function(error, response, body) {
+            assert.equal(201, response.statusCode, 'Test created Question');
+            quizObj.questionOrders[a].question.id = JSON.parse(body).id;
+            /** Setup the Answer Orders **/
+            if(quizObj.questionOrders[a].question.answerOrders) {
+              quizObj.questionOrders[a].question.answerOrders.forEach(function (aorderObj) {
+                request({
+                  uri: 'http://' + hostname + ':' + portno + "/answer",
+                  method: 'POST',
+                  client: httpclient,
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify(aorderObj.answer)
+                }, function (err, response, body) {
+                  assert.equal(201, response.statusCode, 'Test created Answer');
+                  aorderObj.answer.id = JSON.parse(body).id;
+                  request({
+                    uri: 'http://' + hostname + ':' + portno + "/answerOrder",
+                    method: 'POST',
+                    client: httpclient,
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                      answer: aorderObj.answer.id,
+                      weight: aorderObj.weight
+                    })
+                  }, function (err, response, body) {
+                    assert.equal(201, response.statusCode, 'Created created AnswerOrder');
+                    aorderObj.id = JSON.parse(body).id;
+                    request({
+                      uri: 'http://' + hostname + ':' + portno + "/linkquestionaorder/" +
+                      quizObj.questionOrders[a].question.id + "/" + aorderObj.id,
+                      method: 'PUT',
+                      client: httpclient
+                    }, function (err, response, body) {
+                      console.log("here");
+                      assert.equal(200, response.statusCode, 'Test linked AnswerOrder to QuestionOrder');
+                      console.log("Answers setup for question " + a);
+                    });
+                  });
+                });
+              });
+            };
+            /** Setup the Question Orders **/
+            request({
+              uri: 'http://' + hostname + ':' + portno + "/questionOrder",
+              method: 'POST',
+              client: httpclient,
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({
+                question: quizObj.questionOrders[a].question.id,
+                weight: quizObj.questionOrders[a].weight
+              })
+            }, function(error, response, body) {
+              quizObj.questionOrders[a].id = JSON.parse(body).id;
+              request({
+                uri: 'http://' + hostname + ':' + portno + "/linkquizqorder/" +
+                quizObj.id + "/" + quizObj.questionOrders[a].id,
+                method: 'PUT',
+                client: httpclient
+              }, function(error, response, body) {
+                console.log("Question " + a + " inserted.");
+              });
+            });
+          }
+        })(a));
+      }
+
+      /** Setup the Decision Rules **/
+
+      quizObj.decisionRules.forEach(function (dObj, i) {
+        request({
+          uri: 'http://' + hostname + ':' + portno + "/result",
+          method: 'POST',
+          client: httpclient,
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(dObj.result)
+        }, function (err, response, body) {
+          assert.equal(201, response.statusCode, 'Test created Result');
+          dObj.result.id = JSON.parse(body).id;
+          request({
+            uri: 'http://' + hostname + ':' + portno + "/decisionRule",
+            method: 'POST',
+            client: httpclient,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(dObj)
+          }, function (err, response, body) {
+            assert.equal(201, response.statusCode, 'Test created DecisionRule');
+            dObj.id = JSON.parse(body).id;
+            request({
+              uri: 'http://' + hostname + ':' + portno + "/linkquizdrule/" +
+              quizObj.id + "/" + dObj.id,
+              method: 'PUT',
+              client: httpclient
+            }, function(error, response, body) {
+              console.log("Decision Rule " + i + " inserted.");
+            });
+          });
+        });
+      });
+
+    });
+  },
 };
